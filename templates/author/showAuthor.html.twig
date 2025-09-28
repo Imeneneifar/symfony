@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>Détails de l'Auteur</h2>
+    <img src="{{ asset(author.picture) }}" alt="{{ author.username }}" width="120">
+    <p><strong>Nom :</strong> {{ author.username }}</p>
+    <p><strong>Email :</strong> {{ author.email }}</p>
+    <p><strong>Nombre de livres :</strong> {{ author.nb_books }}</p>
+
+    <br>
+{% endblock %}

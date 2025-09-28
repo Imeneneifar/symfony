@@ -1,0 +1,30 @@
+{{Nom|upper}}
+
+{#ceci un commentaire#}
+
+{#ceci pour ajouter un contenue de A#}
+{% set A=4 %}
+{{A}}
+
+{% if 'Imen' starts with 'I' %}
+    commence par I
+{% endif %}
+
+{# exemples des filtres #}
+{{'&hello3A24'|lower|trim('&')}}
+
+{# exemples des path/url #}
+<a href="{{path('afficher')}}">
+Lien1
+</a>
+<a href="{{url('afficher')}}"> 
+Lien2
+</a>
+
+<img src="{{asset('assets/images/symfony.png')}}">
+<img src="{{asset('assets/images/symfony2.png')}}">
+<img src="{{asset('assets/images/symfony3.png')}}">
+<img src="{{asset('assets/images/symfony4.png')}}">
+
+
+
