@@ -1,3 +1,7 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block body %}
+
 <h1>Liste des Auteurs</h1>
 
 {% if authors is defined and authors is not empty %}
@@ -31,11 +35,13 @@
 
     <p><strong>Nombre d'auteurs :</strong> {{ authors|length }}</p>
 
-    <p>
-        <strong>Nombre total de livres :</strong>
-        {{ authors|map(a => a.nb_books)|reduce((carry, v) => carry + v) }}
-    </p>
+   <p>
+  <strong>Nombre total de livres :</strong>
+{{ authors|reduce((total, a) => total + a.nb_books, 0) }}
+</p>
+
 {% else %}
     <p>Aucun auteur trouvé.</p>
 {% endif %}
+{% endblock %}
 

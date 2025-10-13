@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier un auteur{% endblock %}
+
+{% block body %}
+  <h1 style="text-align:center;margin:16px 0;">Modifier un auteur</h1>
+
+  <div style="max-width:600px;margin:0 auto;">
+    {{ form_start(form) }}
+      {{ form_row(form.name) }}
+      {{ form_row(form.email) }}
+*      <button type="submit"> Enregistrer</button>
+    {{ form_end(form) }}
+  </div>
+
+ 
+{% endblock %}

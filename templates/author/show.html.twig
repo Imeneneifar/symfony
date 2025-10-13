@@ -1,30 +1,18 @@
-{{Nom|upper}}
+{% extends 'dashboard/index.html.twig' %}
 
-{#ceci un commentaire#}
+{% block title %}Exemples Twig{% endblock %}
 
-{#ceci pour ajouter un contenue de A#}
-{% set A=4 %}
-{{A}}
+{% block body %}
+  <h1>Exemples Twig</h1>
 
-{% if 'Imen' starts with 'I' %}
-    commence par I
-{% endif %}
+  <p><strong>Nom en majuscules :</strong> {{ name|upper }}</p>
 
-{# exemples des filtres #}
-{{'&hello3A24'|lower|trim('&')}}
+  <p><em>Trim & lower:</em> {{ '&hello3A24'|lower|trim('&') }}</p>
 
-{# exemples des path/url #}
-<a href="{{path('afficher')}}">
-Lien1
-</a>
-<a href="{{url('afficher')}}"> 
-Lien2
-</a>
+  <p>
+    <a href="{{ path('afficher') }}">Lien 1 (path)</a> |
+    <a href="{{ url('afficher') }}">Lien 2 (url)</a>
+  </p>
 
-<img src="{{asset('assets/images/symfony.png')}}">
-<img src="{{asset('assets/images/symfony2.png')}}">
-<img src="{{asset('assets/images/symfony3.png')}}">
-<img src="{{asset('assets/images/symfony4.png')}}">
-
-
-
+  <img src="{{ asset('assets/images/symfony.png') }}" alt="symfony">
+{% endblock %}

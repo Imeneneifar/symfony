@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use function PHPUnit\Framework\returnArgument;
 
-final class WelcomecontrollerController extends AbstractController
+final class WelcomeController extends AbstractController
 {
     #[Route('/welcomecontroller', name: 'app_welcomecontroller')]
     public function index(): Response

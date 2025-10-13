@@ -42,25 +42,69 @@
       </a>
     </div>
     <hr class="horizontal light mt-0 mb-2">
+    <!--navbar-->
     <div class="collapse navbar-collapse w-auto max-height-vh-100" id="sidenav-collapse-main">
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link text-white" href="{{ path('app_dashboard') }}">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">dashboard</i>
-            </div>
-            <span class="nav-link-text ms-1">First page</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="#">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">table_view</i>
-            </div>
-            <span class="nav-link-text ms-1">Second Page</span>
-          </a>
-        </li>
-      </ul>
+  <li class="nav-item">
+    <a class="nav-link text-white" href="{{ path('app_dashboard') }}">
+      <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+        <i class="material-icons opacity-10">dashboard</i>
+      </div>
+      <span class="nav-link-text ms-1">Dashboard</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-white" href="{{ path('app_dashboard_profile') }}">
+      <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+        <i class="material-icons opacity-10">person</i>
+      </div>
+      <span class="nav-link-text ms-1">Profil</span>
+    </a>
+  </li>
+  <li class="nav-item">
+  <a class="nav-link text-white" href="{{ path('app_welcomecontroller') }}">
+  <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+    <i class="material-icons opacity-10">home</i>
+  </div>
+  <span class="nav-link-text ms-1">Welcome</span>
+</a>
+
+</li>
+<li class="nav-item">
+  <a class="nav-link text-white" href="{{ path('app_home') }}">
+    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+      <i class="material-icons opacity-10">home</i>
+    </div>
+    <span class="nav-link-text ms-1">Home</span>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link text-white" href="{{ path('app_test') }}">
+    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+      <i class="material-icons opacity-10">test</i>
+    </div>
+    <span class="nav-link-text ms-1">Test</span>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link text-white" href="{{ path('app_go_to_index') }}">
+    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+      <i class="material-icons opacity-10">service</i>
+    </div>
+    <span class="nav-link-text ms-1">Service</span>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link text-white" href="{{ path('list') }}">
+    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+      <i class="material-icons opacity-10">group</i>
+    </div>
+    <span class="nav-link-text ms-1">Authors</span>
+  </a>
+</li>
+
+</ul>
+
     </div>
     <div class="sidenav-footer position-absolute w-100 bottom-0">
       <div class="mx-3">
