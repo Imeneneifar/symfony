@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% block title %}Livres{% endblock %}
+{% block body %}
+<h1 style="text-align:center">Livres</h1>
+<p style="text-align:center"><a href="{{ path('app_book_new') }}"> Nouveau livre</a></p>
+<table border="1" cellpadding="6" cellspacing="0" align="center">
+ <thead><tr><th>ID</th><th>Titre</th><th>Date</th><th>Publié</th><th>Auteur</th><th>Actions</th></tr></thead>
+ <tbody>
+ {% for b in books %}
+   <tr>
+     <td>{{ b.id }}</td>
+     <td>{{ b.title }}</td>
+     <td>{{ b.publicationDate ? b.publicationDate|date('Y-m-d') : '' }}</td>
+     <td>{{ b.enabled ? 'Oui' : 'Non' }}</td>
+     <td>{{ b.author1 ? b.author1.name : '' }}</td>
+     <td>
+       <a href="{{ path('app_book_edit', {id:b.id}) }}"> Edit</a>
+       <form method="post" action="{{ path('app_book_delete',{id:b.id}) }}" style="display:inline" onsubmit="return confirm('Supprimer ?');">
+         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ b.id) }}">
+         <button type="submit"> Delete</button>
+       </form>
+     </td>
+   </tr>
+ {% else %}
+   <tr><td colspan="6">No Books found</td></tr>
+ {% endfor %}
+ </tbody>
+</table>
+{% endblock %}

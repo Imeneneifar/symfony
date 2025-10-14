@@ -59,12 +59,20 @@ class Author
 
    
    
-    /**
-     * @return Collection<int, Book>
-     */
-    public function getBooks(): Collection
-    {
-        return $this->books;
+    #[ORM\OneToMany(mappedBy: 'author1', targetEntity: Book::class, orphanRemoval: true)]
+private Collection $books;
+
+// helpers:
+public function addBook(Book $book): static {
+    if (!$this->books->contains($book)) { $this->books->add($book); $book->setAuthor1($this); }
+    return $this;
+}
+public function removeBook(Book $book): static {
+    if ($this->books->removeElement($book)) {
+        if ($book->getAuthor1() === $this) { $book->setAuthor1(null); }
     }
+    return $this;
+}
+
 
 }
