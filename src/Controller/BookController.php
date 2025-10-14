@@ -31,7 +31,6 @@ public function new(Request $req, EntityManagerInterface $em): Response
     $form = $this->createForm(BookType::class, $book)->handleRequest($req);
 
     if ($form->isSubmitted() && $form->isValid()) {
-        // auteur choisi dans le form (champ author1)
         $a = $book->getAuthor1();
 
         

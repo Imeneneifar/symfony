@@ -1,11 +1,11 @@
 {% extends 'dashboard/index.html.twig' %}
 
-{% block title %}Livres{% endblock %}
+{% block title %}List of books{% endblock %}
 {% block body %}
-<h1 style="text-align:center">Livres</h1>
-<p style="text-align:center"><a href="{{ path('app_book_new') }}"> Nouveau livre</a></p>
+<h1 style="text-align:center">BOOKS</h1>
+<p style="text-align:center"><a href="{{ path('app_book_new') }}"> New book</a></p>
 <table border="1" cellpadding="6" cellspacing="0" align="center">
- <thead><tr><th>REF</th><th>Titre</th><th>CATEGORY</th><th>Date</th><th>Publié</th><th>Auteur</th><th>Actions</th></tr></thead>
+ <thead><tr><th>REF</th><th>Title</th><th>CATEGORY</th><th>Date</th><th>Published</th><th>Author</th><th>Actions</th></tr></thead>
  <tbody>
  {% for b in books %}
    <tr>
@@ -27,5 +27,7 @@
    <tr><td colspan="6">No Books found</td></tr>
  {% endfor %}
  </tbody>
+ 
+
 </table>
 {% endblock %}

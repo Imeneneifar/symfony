@@ -18,31 +18,30 @@ class BookType extends AbstractType
     {
         $builder
         
-            ->add('id', TextType::class, ['label' => 'Référence ',])
+            ->add('id', TextType::class, ['label' => 'Reference ',])
 
-            ->add('title', TextType::class, ['label' => 'Titre'])
+            ->add('title', TextType::class, ['label' => 'Title'])
 
-            // ← ICI: le champ "category" existe bien dans le form
             ->add('category', ChoiceType::class, [
-                'label' => 'Catégorie',
-                'placeholder' => '- choisir -',
+                'label' => 'Category',
+                'placeholder' => '- - -',
                 'choices' => [
-                    'Roman' => 'Roman',
+                    'Novel' => 'Novel',
                     'Science' => 'Science',
-                    'Histoire' => 'Histoire',
-                    'Informatique' => 'Informatique',
+                    'History' => 'History',
+                    'Computer Science' => 'Computer Science',
+
                 ],
             ])
-            // (si tu préfères texte libre: TextType::class à la place de ChoiceType)
 
             ->add('publicationDate', DateType::class, [
-                'label' => 'Date de publication',
+                'label' => 'Publication Date',
                 'widget' => 'single_text',
             ])
             ->add('author1', EntityType::class, [
                 'class' => Author::class,
                 'choice_label' => 'name',
-                'label' => 'Auteur',
+                'label' => 'Author',
             ]);
     }
 
