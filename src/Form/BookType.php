@@ -33,6 +33,10 @@ class BookType extends AbstractType
 
                 ],
             ])
+            ->add('enabled', null, [
+                 'label' => 'Published',
+            ])
+
 
             ->add('publicationDate', DateType::class, [
                 'label' => 'Publication Date',
