@@ -15,6 +15,7 @@
         <th>ID</th>
         <th>Username</th>
         <th>Email</th>
+        <th>NBR</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -24,6 +25,8 @@
           <td>{{ author.id }}</td>
           <td>{{ author.name }}</td>
           <td>{{ author.email }}</td>
+          <td>{{ author.nbr }}</td>
+
           <td>
   <a href="{{ path('app_author_edit', {id: author.id}) }}"> Edit</a>
 

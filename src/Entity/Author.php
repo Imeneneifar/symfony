@@ -21,6 +21,9 @@ class Author
     #[ORM\Column(length: 150)]
     private ?string $email = null;
 
+     #[ORM\Column(type: 'integer')]
+private ?int $nbr = 0;
+
 
     
 
@@ -56,7 +59,16 @@ class Author
         $this->email = $email;
         return $this;
     }
+public function getNbr(): ?int
+{
+    return $this->nbr;
+}
 
+public function setNbr(int $nbr): self
+{
+    $this->nbr = $nbr;
+    return $this;
+}
    
    
     #[ORM\OneToMany(mappedBy: 'author1', targetEntity: Book::class, orphanRemoval: true)]
