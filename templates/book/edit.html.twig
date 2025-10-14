@@ -12,12 +12,9 @@
 
       {{ form_row(form.publicationDate) }}
       {{ form_row(form.author1) }}
-       <p style="text-align:center; margin-top:20px;">
-       <a href="{{ path('app_book_list') }}" 
-       style="background-color:#6c757d; color:white; padding:8px 16px; border-radius:6px; text-decoration:none;">
-         Back to list
-    </a>
-</p>
+     <p style="margin-top:16px;">
+    <a href="{{ path('app_book_list') }}"> back to list</a> 
+  </p>
 
       <button type="submit">SAVE</button>
 

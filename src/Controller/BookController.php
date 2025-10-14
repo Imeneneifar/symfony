@@ -20,6 +20,15 @@ final class BookController extends AbstractController
         return $this->render('book/index.html.twig', ['books' => $books]);
     }
 
+#[Route('/books/{id}/show', name: 'app_book_show', methods: ['GET'])]
+public function show(Book $book): Response
+{
+    return $this->render('book/show.html.twig', [
+        'book' => $book,
+    ]);
+}
+
+
     #[Route('/books/new', name: 'app_book_new')]
     public function new(Request $req, EntityManagerInterface $em): Response
     {

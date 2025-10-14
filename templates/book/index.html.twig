@@ -21,6 +21,8 @@
          <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ b.id) }}">
          <button type="submit"> Delete</button>
        </form>
+      <a href="{{ path('app_book_show', { id: b.id }) }}">show</a>
+
      </td>
    </tr>
  {% else %}
