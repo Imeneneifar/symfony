@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Form\BookType;
-use App\Repository\BookRepository;   // <<< IMPORTANT
+use App\Repository\BookRepository;   
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,7 +52,7 @@ public function new(Request $req, EntityManagerInterface $em): Response
 #[Route('/books/{id}/edit', name: 'app_book_edit')]
 public function edit(Request $req, EntityManagerInterface $em, Book $book): Response {
     $form = $this->createForm(BookType::class, $book)->handleRequest($req);
-    if ($form->isSubmitted() && $form->isValid()) { $em->flush(); $this->addFlash('success','Modifié ✅'); return $this->redirectToRoute('app_book_list'); }
+    if ($form->isSubmitted() && $form->isValid()) { $em->flush(); $this->addFlash('success','Modifié '); return $this->redirectToRoute('app_book_list'); }
     return $this->render('book/edit.html.twig', ['form' => $form->createView(), 'book'=>$book]);
 }
 
@@ -63,7 +63,7 @@ public function delete(Request $req, EntityManagerInterface $em, Book $book): Re
     }
     
     $em->remove($book); $em->flush();
-    $this->addFlash('danger','Livre supprimé ❌');
+    $this->addFlash('danger','Livre supprimé ');
     return $this->redirectToRoute('app_book_list');
 }
 

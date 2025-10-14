@@ -4,12 +4,16 @@
   <h1 style="text-align:center">{{ title|default('Ajouter un livre') }}</h1>
   <div style="max-width:600px;margin:0 auto;">
     {{ form_start(form) }}
-      {{ form_errors(form) }}
-      {{ form_row(form.title) }}
-      {{ form_row(form.publicationDate) }}
-      {{ form_row(form.enabled) }}
-      {{ form_row(form.author1) }}
-      <button type="submit">Enregistrer</button>
-    {{ form_end(form) }}
+{{ form_errors(form) }}
+{{ form_row(form.id) }}
+
+{{ form_row(form.title) }}
+{{ form_row(form.category) }}
+{{ form_row(form.publicationDate) }}
+{{ form_row(form.author1) }}
+
+<button type="submit">Enregistrer</button>
+{{ form_end(form) }}
+
   </div>
 {% endblock %}
