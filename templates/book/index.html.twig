@@ -14,7 +14,6 @@
      <td> {{ b.category  }}</td>
      <td>{{ b.publicationDate ? b.publicationDate|date('Y-m-d') : '' }}</td>
      <td>{{ b.enabled ? 'Oui' : 'Non' }}</td>
-     <td>{{ b.author1 ? b.author1.name : '' }}</td>
      <td>
        <a href="{{ path('app_book_edit', {id:b.id}) }}"> Edit</a>
        <form method="post" action="{{ path('app_book_delete',{id:b.id}) }}" style="display:inline" onsubmit="return confirm('Supprimer ?');">
