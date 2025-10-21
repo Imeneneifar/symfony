@@ -1,0 +1,74 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}Livres entre {{ start|date('Y-m-d') }} et {{ end|date('Y-m-d') }}{% endblock %}
+
+{% block body %}
+<h1 style="text-align:center;">
+  Livres publiés entre {{ start|date('Y') }} et {{ end|date('Y') }}
+</h1>
+
+<style>
+  .btn {
+    display: inline-block;
+    padding: 4px 10px;
+    margin: 2px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background: #f9f9f9;
+    color: #000;
+    font-size: 13px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: .2s;
+  }
+  .btn:hover {
+    background: #e6e6e6;
+  }
+  table {
+    border-collapse: collapse;
+    width: 90%;
+    margin: 20px auto;
+  }
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  th {
+    background: #f2f2f2;
+  }
+</style>
+
+<p style="text-align:center; margin-bottom: 16px;">
+  <a href="{{ path('app_book_list') }}" class="btn">Retour à la liste complète</a>
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>REF</th>
+      <th>Titre</th>
+      <th>Catégorie</th>
+      <th>Date de publication</th>
+      <th>Publié</th>
+      <th>Auteur</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for b in books %}
+      <tr>
+        <td>{{ b.id }}</td>
+        <td>{{ b.title }}</td>
+        <td>{{ b.category }}</td>
+        <td>{{ b.publicationDate ? b.publicationDate|date('Y-m-d') : '' }}</td>
+        <td>{{ b.enabled ? 'Oui' : 'Non' }}</td>
+        <td>{{ b.author is defined ? (b.author ? b.author.username : '') : (b.author1 ? b.author1.name : '') }}</td>
+      </tr>
+    {% else %}
+      <tr>
+        <td colspan="6" style="text-align:center;">Aucun livre trouvé pour cette période</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

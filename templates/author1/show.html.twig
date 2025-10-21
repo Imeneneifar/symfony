@@ -5,16 +5,6 @@
 {% block body %}
 <h1 style="text-align:center;">Liste des Auteurs</h1>
 
-<form method="get" action="{{ path('app_author_list') }}" style="margin-bottom:20px; text-align:center;">
-    <label for="minBooks">Nombre de livres min :</label>
-    <input type="number" id="minBooks" name="minBooks" value="{{ app.request.get('minBooks') }}" min="0">
-
-    <label for="maxBooks">Nombre de livres max :</label>
-    <input type="number" id="maxBooks" name="maxBooks" value="{{ app.request.get('maxBooks') }}" min="0">
-
-    <button type="submit" class="btn">Rechercher</button>
-</form>
-
 <style>
     .btn {
         display: inline-block;
@@ -37,12 +27,13 @@
     table {
         border-collapse: collapse;
         width: 90%;
-        margin: 0 auto;
+        margin: 20px auto;
     }
 
     th, td {
         text-align: center;
         padding: 8px;
+        border: 1px solid #ddd;
     }
 
     th {
@@ -54,19 +45,20 @@
     }
 </style>
 
-<table border="1" cellpadding="6" cellspacing="0" align="center">
+<table class="table">
     <thead>
         <tr>
             <th>ID</th>
             <th>Nom</th>
             <th>Email</th>
             <th>Age</th>
-            <th>Nombre de livres</th>
+            <th>Nb Books</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        {% for author in authors %}
+    {# ici on corrige la boucle — c’est "authors" pas "author" #}
+    {% for author in author %}
         <tr>
             <td>{{ author.id }}</td>
             <td>{{ author.username }}</td>
@@ -78,15 +70,15 @@
 
                 <form method="post" action="{{ path('app_author_delete', {'id': author.id}) }}" class="inline" onsubmit="return confirm('Voulez-vous vraiment supprimer cet auteur ?');">
                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ author.id) }}">
-                    <button class="btn" type="submit">Delete</button>
+                    <button type="submit" class="btn">Delete</button>
                 </form>
             </td>
         </tr>
-        {% else %}
+    {% else %}
         <tr>
-            <td colspan="6" style="text-align:center;">Aucun auteur trouvé</td>
+            <td colspan="6">Aucun auteur trouvé.</td>
         </tr>
-        {% endfor %}
+    {% endfor %}
     </tbody>
 </table>
 

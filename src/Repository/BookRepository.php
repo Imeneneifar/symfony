@@ -16,28 +16,100 @@ class BookRepository extends ServiceEntityRepository
         parent::__construct($registry, Book::class);
     }
 
-    //    /**
-    //     * @return Book[] Returns an array of Book objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('b')
-    //            ->andWhere('b.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('b.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
 
-    //    public function findOneBySomeField($value): ?Book
-    //    {
-    //        return $this->createQueryBuilder('b')
-    //            ->andWhere('b.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+
+
+
+    // src/Repository/BookRepository.php
+public function searchBookByRef(string $ref): ?Book
+{
+    return $this->createQueryBuilder('b')
+        ->andWhere('b.ref = :ref')
+        ->setParameter('ref', $ref)
+        ->getQuery()
+        ->getOneOrNullResult();
+}
+
+
+public function booksListByAuthors(): array
+{
+    return $this->createQueryBuilder('b')
+        ->leftJoin('b.author', 'a')->addSelect('a')
+        ->orderBy('a.username', 'ASC')
+        ->addOrderBy('b.title', 'ASC')
+        ->getQuery()
+        ->getResult();
+}
+
+
+
+
+
+public function publishedBefore2023WithProlificAuthors(): array
+{
+    return $this->createQueryBuilder('b')
+        ->leftJoin('b.author', 'a')->addSelect('a')
+        ->andWhere('b.published = :pub')->setParameter('pub', true)
+        ->andWhere('b.publishedAt < :cutoff')->setParameter('cutoff', new \DateTime('2023-01-01'))
+        ->andWhere('a.nbBooks > :min')->setParameter('min', 10)
+        ->orderBy('b.publishedAt', 'DESC')
+        ->getQuery()
+        ->getResult();
+}
+
+
+
+
+
+public function recategorizeSciFiToRomance(): int
+{
+    return $this->_em->createQueryBuilder()
+        ->update(Book::class, 'b')
+        ->set('b.category', ':new')
+        ->where('b.category = :old')
+        ->setParameter('new', 'Romance')
+        ->setParameter('old', 'Science-Fiction')
+        ->getQuery()
+        ->execute(); // renvoie le nombre de lignes MAJ
+}
+
+
+    public function countRomanceBooks(): int
+    {
+        return (int) $this->createQueryBuilder('b')
+            ->select('COUNT(b.id)')
+            ->where('b.category = :cat')
+            ->setParameter('cat', 'Romance')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function findBooksBetweenDates(\DateTimeInterface $start, \DateTimeInterface $end): array
+    {
+        return $this->createQueryBuilder('b')
+            ->where('b.publicationDate BETWEEN :start AND :end')
+            ->setParameter('start', $start)
+            ->setParameter('end', $end)
+            ->orderBy('b.publicationDate', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findPublishedBooks(): array
+    {
+        return $this->createQueryBuilder('b')
+            ->where('b.enabled = true')
+            ->orderBy('b.publicationDate', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function deleteUnpublishedBooks(): int
+    {
+        $qb = $this->_em->createQueryBuilder()
+            ->delete(Book::class, 'b')
+            ->where('b.enabled = false');
+
+        return $qb->getQuery()->execute();
+    }
 }

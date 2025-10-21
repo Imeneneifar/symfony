@@ -4,11 +4,12 @@ namespace App\Form;
 
 use App\Entity\Book;
 use App\Entity\Author;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,40 +18,44 @@ class BookType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        
-            ->add('id', TextType::class, ['label' => 'Reference ',])
-
-            ->add('title', TextType::class, ['label' => 'Title'])
-
+            ->add('title', TextType::class, [
+                'label' => 'Titre du livre',
+            ])
             ->add('category', ChoiceType::class, [
-                'label' => 'Category',
-                'placeholder' => '- - -',
+                'label' => 'Catégorie',
                 'choices' => [
-                    'Novel' => 'Novel',
-                    'Science' => 'Science',
-                    'History' => 'History',
-                    'Computer Science' => 'Computer Science',
-
+                    'Science-Fiction' => 'Science-Fiction',
+                    'Mystery' => 'Mystery',
+                    'Autobiography' => 'Autobiography',
+                    'Romance' => 'Romance',
                 ],
             ])
-            ->add('enabled', null, [
-                 'label' => 'Published',
-            ])
-
-
             ->add('publicationDate', DateType::class, [
-                'label' => 'Publication Date',
+                'label' => 'Date de publication',
                 'widget' => 'single_text',
+                'required' => false,
             ])
-            ->add('author1', EntityType::class, [
+            ->add('author', EntityType::class, [
+    'class' => Author::class,
+    'choice_label' => 'username', 
+    'label' => 'Auteur',
+])
+
+            ->add('enabled', CheckboxType::class, [
+                'label' => 'Actif',
+                'required' => false,
+            ])
+            ->add('author', EntityType::class, [
                 'class' => Author::class,
-                'choice_label' => 'name',
-                'label' => 'Author',
+                'choice_label' => 'username', 
+                'label' => 'Auteur',
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => Book::class]);
+        $resolver->setDefaults([
+            'data_class' => Book::class,
+        ]);
     }
 }

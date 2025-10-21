@@ -1,34 +1,99 @@
 {% extends 'dashboard/index.html.twig' %}
 
-{% block title %}List of books{% endblock %}
+{% block title %}Livres{% endblock %}
+
 {% block body %}
-<h1 style="text-align:center">BOOKS</h1>
-<p style="text-align:center"><a href="{{ path('app_book_new') }}"> New book</a></p>
+<h1 style="text-align:center">Livres</h1>
+
+{% set refParam = app.request.query.get('ref')|default('')|trim %}
+
+<p style="text-align:center; font-weight:bold; color:blue;">
+    Nombre de livres Romance : {{ romanceCount }}
+</p>
+
+<style>
+  .btn{
+    display:inline-block;padding:4px 10px;margin:2px;
+    border:1px solid #333;border-radius:4px;background:#f9f9f9;color:#000;
+    font-size:13px;text-decoration:none;cursor:pointer;transition:.2s;
+  }
+  .btn:hover{ background:#e6e6e6; }
+  table{ border-collapse:collapse;width:90%;margin:14px auto; }
+  th,td{ border:1px solid #ddd;padding:8px;text-align:center; }
+  th{ background:#f2f2f2; }
+  form.inline{ display:inline; }
+</style>
+
+<div style="text-align:center; margin-bottom: 14px;">
+  <a href="{{ path('app_book_new') }}" class="btn">Nouveau livre</a>
+  <a href="{{ path('app_book_delete_unpublished') }}" class="btn"
+     onclick="return confirm('Supprimer tous les livres non publiés ?');">
+     Supprimer les livres non publiés
+  </a>
+  <a href="{{ path('app_book_between_dates') }}" class="btn">
+      Voir les livres publiés entre 2014 et 2018
+  </a>
+</div>
+
+<form method="get" action="{{ path('app_book_list') }}" style="text-align:center; margin-bottom: 12px;">
+  <input type="text" name="ref" placeholder="Rechercher par ref" value="{{ refParam }}" />
+  <button type="submit" class="btn">Rechercher</button>
+   
+</form>
+
+{% if refParam %}
+  <div style="text-align:center; margin-bottom: 12px;">
+    <em>Filtré par ref = "{{ refParam }}"</em>
+  </div>
+{% endif %}
+
 <table border="1" cellpadding="6" cellspacing="0" align="center">
- <thead><tr><th>REF</th><th>Title</th><th>CATEGORY</th><th>Date</th><th>Published</th><th>Author</th><th>Actions</th></tr></thead>
- <tbody>
- {% for b in books %}
-   <tr>
-     <td>{{ b.id }}</td>
-     <td>{{ b.title }}</td>
-     <td> {{ b.category  }}</td>
-     <td>{{ b.publicationDate ? b.publicationDate|date('Y-m-d') : '' }}</td>
-     <td>{{ b.enabled ? 'Oui' : 'Non' }}</td>
-     <td>
-       <a href="{{ path('app_book_edit', {id:b.id}) }}"> Edit</a>
-       <form method="post" action="{{ path('app_book_delete',{id:b.id}) }}" style="display:inline" onsubmit="return confirm('Supprimer ?');">
-         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ b.id) }}">
-         <button type="submit"> Delete</button>
-       </form>
-      <a href="{{ path('app_book_show', { id: b.id }) }}">show</a>
+  <thead>
+    <tr>
+      <th>REF</th>
+      <th>Titre</th>
+      <th>Catégorie</th>
+      <th>Date</th>
+      <th>Publié</th>
+      <th>Auteur</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% set found = false %}
+    {% for b in books %}
+      {% if refParam == '' or (b.ref is defined and b.ref == refParam) %}
+        {% set found = true %}
+        <tr>
+          <td>{{ b.ref is defined and b.ref ? b.ref : b.id }}</td>
+          <td>{{ b.title }}</td>
+          <td>{{ b.category }}</td>
+          <td>{{ b.publicationDate ? b.publicationDate|date('Y-m-d') : '' }}</td>
+          <td>{{ b.enabled ? 'Oui' : 'Non' }}</td>
+          <td>{{ b.author is defined ? (b.author ? b.author.username : '') : (b.author1 ? b.author1.name : '') }}</td>
+          <td>
+            <a href="{{ path('app_book_show', {id: b.id}) }}" class="btn">Show</a>
+            <a href="{{ path('app_book_edit', {id: b.id}) }}" class="btn">Edit</a>
+            <form method="post" action="{{ path('app_book_delete', {id: b.id}) }}" class="inline" onsubmit="return confirm('Supprimer ?');">
+              <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ b.id) }}">
+              <button type="submit" class="btn">Delete</button>
+            </form>
+          </td>
+        </tr>
+      {% endif %}
+    {% endfor %}
 
-     </td>
-   </tr>
- {% else %}
-   <tr><td colspan="6">No Books found</td></tr>
- {% endfor %}
- </tbody>
- 
-
+    {% if not found %}
+      <tr>
+        <td colspan="7" style="text-align:center">
+          {% if refParam %}
+            Aucun livre trouvé pour la ref "{{ refParam }}"
+          {% else %}
+            Aucun livre trouvé
+          {% endif %}
+        </td>
+      </tr>
+    {% endif %}
+  </tbody>
 </table>
 {% endblock %}

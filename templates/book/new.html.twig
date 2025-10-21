@@ -1,30 +1,49 @@
 {% extends 'dashboard/index.html.twig' %}
-{% block title %}{{ title|default('Livre') }}{% endblock %}
+
+{% block title %}Ajouter un livre{% endblock %}
+
 {% block body %}
-  <h1 style="text-align:center">{{ title|default('Add book') }}</h1>
-  <div style="max-width:600px;margin:0 auto;">
-    {{ form_start(form) }}
-{{ form_errors(form) }}
-{{ form_row(form.id) }}
+<h1 style="text-align:center;">Ajouter un livre</h1>
 
-{{ form_row(form.title) }}
-{{ form_row(form.category) }}
-{{ form_row(form.enabled) }}
+<style>
+  .btn {
+    display: inline-block;
+    padding: 4px 10px;
+    margin: 2px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background: #f9f9f9;
+    color: #000;
+    font-size: 13px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: .2s;
+  }
+  .btn:hover {
+    background: #e6e6e6;
+  }
+  .form-container {
+    width: 60%;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 6px;
+    background: #fafafa;
+  }
+</style>
 
-{{ form_row(form.publicationDate) }}
-{{ form_row(form.author1) }}
+<div class="form-container">
+  {{ form_start(form) }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.category) }}
+    {{ form_row(form.publicationDate) }}
+    {{ form_row(form.enabled) }}
+    {{ form_row(form.author) }}
+    <button type="submit" class="btn">Créer</button>
+  {{ form_end(form) }}
 
-
- <p style="margin-top:16px;">
-    <a href="{{ path('app_book_list') }}"> back to list</a> 
+  <p style="margin-top:12px;">
+    <a href="{{ path('app_book_list') }}" class="btn">Retour à la liste</a>
   </p>
-
-
-<button type="submit">SAVE</button>
-
-{{ form_end(form) }}
-   
-
-  </div>
-
+</div>
 {% endblock %}

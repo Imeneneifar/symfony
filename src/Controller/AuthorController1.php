@@ -9,19 +9,36 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Form\AuthorSearchType;
+
 
 class AuthorController1 extends AbstractController
 {
-    #[Route('/authors', name: 'app_author_list')]
-public function index(AuthorRepository $repo): Response
+ #[Route('/authors', name: 'app_author_list')]
+public function index(Request $request, AuthorRepository $authorRepo): Response
 {
+    // Récupérer les valeurs min et max depuis l'URL
+    $min = $request->query->getInt('minBooks', 0);         
+    $max = $request->query->getInt('maxBooks', PHP_INT_MAX); 
+
+    $authors = $authorRepo->findAuthorsByBookCountRange($min, $max);
+
     return $this->render('author1/index.html.twig', [
-        'authors' => $repo->findAll(),
+        'authors' => $authors,
+        'minBooks' => $min,
+        'maxBooks' => $max,
     ]);
 }
 
 
-    #[Route('/authors/new', name: 'app_author_new')]
+    
+
+
+
+
+
+
+#[Route('/authors/new', name: 'app_author_new')]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $author = new Author();
@@ -70,10 +87,56 @@ public function index(AuthorRepository $repo): Response
         ]);
     }
 
+
+
+
+
+
+
+
+
+
+
+    #[Route('/authors/search', name: 'app_author_search')]
+public function search(Request $request, AuthorRepository $authorRepo): Response
+{
+    $form = $this->createForm(AuthorSearchType::class);
+    $form->handleRequest($request);
+
+    $authors = [];
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $data = $form->getData();
+        $min = $data['minBooks'] ?? null;
+        $max = $data['maxBooks'] ?? null;
+
+        $authors = $authorRepo->findAuthorsByBookCount($min, $max);
+    }
+
+    return $this->render('author/search.html.twig', [
+        'form' => $form->createView(),
+        'authors' => $authors,
+    ]);
+}
+
+
+
+    #[Route('/authors/delete-empty', name: 'app_author_delete_empty')]
+public function deleteEmptyAuthors(AuthorRepository $authorRepo): Response
+{
+    $count = $authorRepo->deleteAuthorsWithoutBooks();
+
+    $this->addFlash('success', "$count auteur(s) sans livre ont été supprimé(s).");
+
+    return $this->redirectToRoute('app_author_list'); // route vers la liste des auteurs
+}
+
+
 #[Route('/authors/{id}/delete', name: 'app_author_delete', methods: ['POST'])]
 public function delete(Request $request, EntityManagerInterface $em, Author $author): Response
 {
-    // sécurité CSRF
+    dump($request->request->all()); 
+
     if (!$this->isCsrfTokenValid('delete'.$author->getId(), $request->request->get('_token'))) {
         throw $this->createAccessDeniedException('Jeton CSRF invalide');
     }
@@ -81,10 +144,8 @@ public function delete(Request $request, EntityManagerInterface $em, Author $aut
     $em->remove($author);
     $em->flush();
 
-    $this->addFlash('danger', 'Auteur supprimé ');
+    $this->addFlash('danger', 'Auteur supprimé');
     return $this->redirectToRoute('app_author_list');
 }
-
-
 }
 

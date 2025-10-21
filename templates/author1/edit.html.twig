@@ -1,22 +1,23 @@
 {% extends 'dashboard/index.html.twig' %}
 
-{% block title %}Edit author{% endblock %}
+{% block title %}Modifier un auteur{% endblock %}
 
 {% block body %}
-  <h1 style="text-align:center;margin:16px 0;">Edit author</h1>
+  <h1 style="text-align:center;margin:16px 0;">Modifier un auteur</h1>
 
   <div style="max-width:600px;margin:0 auto;">
     {{ form_start(form) }}
-      {{ form_row(form.name) }}
+      {{ form_row(form.username) }}
       {{ form_row(form.email) }}
-       <p style="margin-top:16px;">
-    <a href="{{ path('app_author_list') }}"> back to list</a> 
+      {{ form_row(form.age) }}
+{{ form_row(form.nbBooks) }} 
+      <button type="submit"> Enregistrer</button>
+    {{ form_end(form) }}
+
+
+  </div>
+<p style="margin-top:12px;">
+    <a href="{{ path('app_author_list') }}" class="btn">Retour à la liste</a>
   </p>
 
-      <button type="submit"> SAVE</button>
-
-    {{ form_end(form) }}
-  </div>
-
- 
 {% endblock %}
